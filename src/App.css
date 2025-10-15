@@ -1,7 +1,7 @@
 .panel-main {
   max-width: 430px;
   margin: 12px auto;
-  padding: 8px;
+  padding: 24px;
   border-radius: 18px;
   background: #fff;
   box-shadow: 0 4px 24px rgba(0,0,0,0.05);
@@ -14,87 +14,23 @@
   background-origin: border-box;
   background-clip: content-box, border-box;
 }
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ---------- BOTTONI PERSONALIZZATI ---------- */
-.button-modifica {
-  background: #1976d2 !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 5px !important;
-  margin-right: 4px !important;
-  padding: 5px 12px !important;
-  cursor: pointer !important;
-}
-
-.button-elimina {
-  background: #d32f2f !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 5px !important;
-  padding: 5px 12px !important;
-  cursor: pointer !important;
-  margin-right: 4px !important;
-}
-
-.button-annulla {
-  background: #616161 !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 5px !important;
-  padding: 5px 12px !important;
-  margin-right: 4px !important;
-}
-
-.button-salva {
-  background: #388e3c !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: 5px !important;
-  padding: 5px 12px !important;
-  margin-right: 4px !important;
-}
 
 /* ---------- Responsive e Utility ---------- */
 @media (max-width: 700px) {
-  .panel-main { max-width: 99vw; min-width: unset; padding: 18vw 2vw 4vw 2vw; box-shadow: 0 2.5px 14px #1646600a; margin: 0 auto; border-radius: 0; }
+  .panel-main {
+    max-width: 99vw;
+    min-width: unset;
+    padding: 7vw 2vw 4vw 2vw;
+    margin: 0 auto;
+    border-radius: 16px;
+    border: 4px solid transparent;
+    background-image:
+      linear-gradient(#fff, #fff),
+      linear-gradient(90deg, #1976d2, #00c853);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 0 2.5px 14px #1646600a;
+  }
   .section-header { font-size: 19px; }
   .card-item { border-radius: 8px; padding:14px 8px; font-size:14.5px; }
   .btn-primary, .btn-secondary { font-size:15px; padding:11px 14px; border-radius:8px; }
@@ -102,22 +38,17 @@
 }
 
 @media (max-width: 480px) {
-  .panel-main { padding: 11vw 2vw 4vw 2vw; }
+  .panel-main {
+    padding: 11vw 2vw 4vw 2vw;
+    border-radius: 14px;
+    border: 4px solid transparent;
+    background-image:
+      linear-gradient(#fff, #fff),
+      linear-gradient(90deg, #1976d2, #00c853);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
   .section-header { font-size: 17px; gap:7px; }
   .card-item { flex-direction:column; gap:10px; }
   .btn-primary, .btn-secondary { width:100%; box-sizing:border-box; margin-top:8px; }
-}
-.app-container {
-  max-width: 430px;
-  margin: 12px auto;
-  padding: 8px;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
-  border: 4px solid transparent;
-  background-image:
-    linear-gradient(#fff, #fff),
-    linear-gradient(90deg, #1976d2, #00c853);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
 }
