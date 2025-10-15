@@ -49,6 +49,29 @@
     background-clip: content-box, border-box;
   }
   .section-header { font-size: 17px; gap:7px; }
-  .card-item { flex-direction:column; gap:10px; }
+  .card-item {
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 110px;       /* oppure aumenta a 120 o 130 se vuoi più spessore */
+  padding: 14px 8px;
+  overflow: hidden;
+}
+.card-item .socc-icon,
+.card-item svg {
+  max-width: 32px;
+  max-height: 32px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.card-item button {
+  flex-shrink: 1;
+  max-width: 94%;
+}
+
   .btn-primary, .btn-secondary { width:100%; box-sizing:border-box; margin-top:8px; }
 }
