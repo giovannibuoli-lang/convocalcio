@@ -36,3 +36,58 @@
     transform: rotate(360deg);
   }
 }
+
+/* ---------- BOTTONI PERSONALIZZATI ---------- */
+.button-modifica {
+  background: #1976d2 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  margin-right: 4px !important;
+  padding: 5px 12px !important;
+  cursor: pointer !important;
+}
+
+.button-elimina {
+  background: #d32f2f !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 5px 12px !important;
+  cursor: pointer !important;
+  margin-right: 4px !important;
+}
+
+.button-annulla {
+  background: #616161 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 5px 12px !important;
+  margin-right: 4px !important;
+}
+
+.button-salva {
+  background: #388e3c !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 5px 12px !important;
+  margin-right: 4px !important;
+}
+
+/* ---------- Responsive e Utility ---------- */
+@media (max-width: 700px) {
+  .panel-main { max-width: 99vw; min-width: unset; padding: 18vw 2vw 4vw 2vw; box-shadow: 0 2.5px 14px #1646600a; margin: 0 auto; border-radius: 0; }
+  .section-header { font-size: 19px; }
+  .card-item { border-radius: 8px; padding:14px 8px; font-size:14.5px; }
+  .btn-primary, .btn-secondary { font-size:15px; padding:11px 14px; border-radius:8px; }
+  .socc-icon { font-size: 25px; margin-right:7px; }
+}
+
+@media (max-width: 480px) {
+  .panel-main { padding: 11vw 2vw 4vw 2vw; }
+  .section-header { font-size: 17px; gap:7px; }
+  .card-item { flex-direction:column; gap:10px; }
+  .btn-primary, .btn-secondary { width:100%; box-sizing:border-box; margin-top:8px; }
+}

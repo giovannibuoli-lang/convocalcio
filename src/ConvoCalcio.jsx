@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { MdGroups, MdPerson, MdEvent, MdLogout, MdEdit, MdClose, MdSportsSoccer, MdOutlineSportsKabaddi } from "react-icons/md";
+import { MdGroups, MdPerson, MdEvent, MdLogout, MdEdit, MdClose, MdSportsSoccer, MdOutlineSportsKabaddi, MdWhatshot } from "react-icons/md";
 import { FaFutbol, FaUserShield, FaCheckCircle, FaQuestionCircle, FaTimesCircle, FaRunning, FaFootballBall } from 'react-icons/fa';
-import { GiSoccerField } from 'react-icons/gi';
+import { GiSoccerField, GiGoalKeeper, GiSoccerKick } from 'react-icons/gi';
 import { db } from './firebase';
 import { collection, addDoc, updateDoc, doc, onSnapshot, deleteDoc } from "firebase/firestore";
 import { useNotification } from "./NotificationContext";
@@ -86,56 +86,90 @@ const LogoutButton = ({ onLogout }) => (
 );
 
 const PlayerCard = ({ player, editable = false, onEdit, onDelete, response }) => (
-  <div className="card-item" style={{flexDirection:"row", alignItems:'center'}}>
-    {player.position === 'Portiere' && <FaUserShield style={{fontSize:28,marginRight:10,color:"#3b82f6"}} />}
-    {player.position === 'Difensore' && <FaRunning style={{fontSize:28,marginRight:10,color:"#227bbf"}} />}
-    {player.position === 'Centrocampista' && <FaFutbol style={{fontSize:28,marginRight:10,color:"#1ed760"}} />}
-    {player.position === 'Attaccante' && <MdSportsSoccer style={{fontSize:28,marginRight:10,color:"#fc8803"}} />}
+  <div className="card-item" style={{ flexDirection: "row", alignItems: "center" }}>
+    {player.position === 'Portiere' && <GiGoalKeeper style={{ fontSize: 28, marginRight: 10, color: "#3b82f6" }} title="Portiere" />}
+    {player.position === 'Difensore' && <FaRunning style={{ fontSize: 28, marginRight: 10, color: "#227bbf" }} title="Difensore" />}
+    {player.position === 'Centrocampista' && <FaFutbol style={{ fontSize: 28, marginRight: 10, color: "#1ed760" }} title="Centrocampista" />}
+    {player.position === 'Attaccante' && <GiSoccerKick style={{ fontSize: 28, marginRight: 10, color: "#ef4444" }} title="Attaccante" />}
+
     <div style={{ flex: 1 }}>
-      <div style={{ fontWeight: 700, fontSize: 17 }}>{player.firstName} {player.lastName}</div>
+      <div style={{ fontWeight: 700, fontSize: 17 }}>
+        {player.firstName} {player.lastName}
+      </div>
       <div style={{ color: "#637381", fontSize: 15 }}>
         {player.position} • Maglia {player.jerseyNumber || "?"}
       </div>
     </div>
+
     {!response && <FaQuestionCircle title="Nessuna risposta" style={{color:'#ccc',fontSize:24,marginRight:6}} />}
     {response === "partecipo" && <FaCheckCircle title="Partecipo" style={{color:'green',fontSize:24,marginRight:6}} />}
     {response === "incerto" && <FaQuestionCircle title="Incerto" style={{color:'orange',fontSize:24,marginRight:6}} />}
     {response === "no" && <FaTimesCircle title="Non partecipa" style={{color:'red',fontSize:24,marginRight:6}} />}
+
     {editable &&
       <div style={{ display: "flex", gap: 9 }}>
-        <Button variant="secondary" icon={<MdEdit/>} title="" onPress={() => onEdit(player)} style={{fontSize:16, padding:"6px 10px"}} />
-        <Button variant="secondary" icon={<MdClose/>} title="" onPress={() => onDelete(player)} style={{fontSize:16,padding:"6px 10px"}} />
-      </div>}
+        <Button variant="secondary" icon={<MdEdit/>} title="Modifica Giocatore" onPress={() => onEdit(player)} style={{fontSize:16, padding:"6px 10px"}} />
+        <Button variant="secondary" icon={<MdClose/>} title="Elimina Giocatore" onPress={() => onDelete(player)} style={{fontSize:16,padding:"6px 10px"}} />
+      </div>
+    }
   </div>
 );
 
-// -------- MODALI COMPLETI: DA QUI --------
+// ... DA QUI continui con TeamFormModal, EventFormModal ecc. come nel tuo codice esistente ...
+
+
+
 const TeamFormModal = ({ open, team, onSave, onClose }) => {
   const [name, setName] = useState(team?.name || "");
   const [category, setCategory] = useState(team?.category || "");
+  const [color, setColor] = useState(team?.color || "#e3f2fd");
+
   useEffect(() => {
     if (open) {
       setName(team?.name || "");
       setCategory(team?.category || "");
+      setColor(team?.color || "#e3f2fd");
     }
   }, [open, team]);
+
   const handleSubmit = e => {
     e.preventDefault();
     if(!name) return;
-    onSave({ ...team, name, category });
+    onSave({ ...team, name, category, color });
   };
+
   return (
     <Modal open={open} onClose={onClose}>
       <form onSubmit={handleSubmit}>
         <h2>{team ? "Modifica squadra" : "Nuova squadra"}</h2>
         <Input value={name} placeholder="Nome squadra" onChange={e=>setName(e.target.value)} required />
         <Input value={category} placeholder="Categoria" onChange={e=>setCategory(e.target.value)} />
+        <div style={{margin:"13px 0"}}>
+          <label>
+            Colore card:
+            <input
+              type="color"
+              value={color}
+              onChange={e => setColor(e.target.value)}
+              style={{
+                marginLeft: 16,
+                width: 36,
+                height: 36,
+                border: "none",
+                background: "none",
+                verticalAlign: "middle",
+                cursor: "pointer"
+              }}
+            />
+          </label>
+        </div>
         <Button type="submit" title={team ? "Salva" : "Crea"} />
         <Button type="button" variant="secondary" title="Annulla" onPress={onClose} />
       </form>
     </Modal>
   );
 };
+
 
 const EventFormModal = ({ open, event, teams, onSave, onClose }) => {
   const [title, setTitle] = useState(event?.title || "");
@@ -260,7 +294,6 @@ const DemoLogin = ({ onAdmin, onPlayer }) => {
     </div>
   );
 };
-// -------- MODALI COMPLETI: A QUI --------
 
 const AdminDashboard = ({
   teams,
@@ -306,91 +339,146 @@ const AdminDashboard = ({
     <div className="panel-main" style={{ position: "relative" }}>
       <LogoutButton onLogout={onLogout} />
       {sectionHeader("Squadre")}
-      <div style={{ display: "flex", gap: 8, marginBottom: 22 }}>
-        <Select
-          value={selectedTeamId}
-          onChange={e => setSelectedTeamId(e.target.value)}
-          options={teams.map(t => ({ value: t.id, label: t.name }))} placeholder="Seleziona squadra..." />
-        <Button title="Aggiungi squadra" icon={<MdGroups />} onPress={onCreateTeam} />
-      </div>
-      <div>
-        {teams.map(team => (
-          <div key={team.id} className="card-item" style={{ border: team.id === selectedTeamId ? "2.4px solid #1976d2" : undefined }}>
-            <div style={{ flex: 1 }}>
-              <b>{team.name}</b> <span style={{ color: "#637381" }}>{team.category}</span>
-            </div>
-            <Button variant="secondary" icon={<MdEdit />} title="" onPress={() => onEditTeam(team)} />
-            <Button variant="secondary" icon={<MdClose />} title="" onPress={() => onDeleteTeam(team)} />
-          </div>
-        ))}
-      </div>
-      {sectionHeader("Giocatori")}
+      {/* Sostituisci tutto il vecchio blocco Select + Button dentro il pannello squadre con questo: */}
+<div style={{ margin: "0 0 22px 0" }}>
+  <Button title="Aggiungi squadra" icon={<MdGroups />} onPress={onCreateTeam} />
+</div>
+
+{/* Poi sotto questo blocco va il mapping delle squadre, che diventa selezione con click sulla card */}
+{teams.map(team => (
+  <div
+    key={team.id}
+    className="card-item"
+    style={{
+      border: team.id === selectedTeamId ? "2.4px solid #1976d2" : undefined,
+      background: team.color || "#f7fafc",
+      cursor: "pointer"
+    }}
+    onClick={() => setSelectedTeamId(team.id)}
+  >
+    <div style={{ flex: 1 }}>
+      <b>{team.name}</b>
+      <span style={{ color: "#637381" }}>{team.category}</span>
+      <span style={{
+        display: "inline-block",
+        width: 24,
+        height: 24,
+        marginLeft: 12,
+        verticalAlign: "middle",
+        borderRadius: "50%",
+        background: team.color || "#e3f2fd",
+        border: "1.2px solid #bcc"
+      }} title="Colore squadra"></span>
+    </div>
+    <Button
+      className="button-modifica"
+      variant="secondary"
+      icon={<MdEdit />}
+      title="Modifica Squadra"
+      onPress={e => { e.stopPropagation(); onEditTeam(team); }}
+    />
+    <Button
+      className="button-elimina"
+      variant="secondary"
+      icon={<MdClose />}
+      title="Elimina Squadra"
+      onPress={e => { e.stopPropagation(); onDeleteTeam(team); }}
+    />
+  </div>
+))}
+
+
+            {sectionHeader("Giocatori")}
       <Button title="Aggiungi giocatore" icon={<MdPerson />} onPress={onCreatePlayer} style={{ marginBottom: 14 }} />
       <div>
-        {teamPlayers.length === 0 && <div style={{ color: "#aaa" }}>Nessun giocatore in questa squadra.</div>}
+        {teamPlayers.length === 0 &&
+          <div style={{ color: "#aaa" }}>Nessun giocatore in questa squadra.</div>}
         {teamPlayers.map(player => (
-          <PlayerCard
-            key={player.id}
-            player={player}
-            editable
-            onEdit={onEditPlayer}
-            onDelete={onDeletePlayer}
-          />
-        ))}
+  <div
+    key={player.id}
+    className="card-item"
+    style={{
+      background: selectedTeam?.color || "#f7fafc"
+    }}
+  >
+    <PlayerCard
+      player={player}
+      editable
+      onEdit={onEditPlayer}
+      onDelete={onDeletePlayer}
+    />
+  </div>
+))}
+
       </div>
       {sectionHeader("Eventi/Convocazioni")}
-      <Button title="Crea evento" icon={<MdEvent />} onPress={onCreateEvent} style={{ marginBottom: 14 }} />
+      <Button
+  title="Crea Evento"
+  icon = {<MdEvent />}
+  onPress={onCreateEvent}
+  style={{ width: "100%", marginBottom: 14, fontSize: 18, fontWeight: 600 }}
+/>
+
       <div>
         {teamEvents.length === 0 && <div style={{ color: "#aaa" }}>Nessun evento per questa squadra.</div>}
         {teamEvents.map(event => (
-          <div key={event.id} className="card-item" style={{ flexDirection: "column", alignItems: "flex-start", gap: 9 }}>
-            <div style={{display:'flex',alignItems:'center',gap:9}}>
-              {(event.type==="allenamento") && <FaFutbol size={22} color="#2196F3" />}
-              {(event.type==="partita") && <MdSportsSoccer size={22} color="#e22929" />}
-              {(event.type==="amichevole") && <MdOutlineSportsKabaddi size={22} color="#e39d1a" />}
-              <div style={{ fontWeight: 700, fontSize: 17 }}>
-                {event.title}
-                <span style={{ color: "#147347", fontWeight: 600, fontSize: "15px", marginLeft: 8 }}>{event.type}</span>
+          <div
+  key={event.id}
+  className="card-item"
+  style={{
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: 9,
+    background: selectedTeam?.color || "#f7fafc"
+  }}>
+
+              <div style={{display:'flex',alignItems:'center',gap:9}}>
+                {(event.type==="allenamento") && <FaFutbol size={22} color="#2196F3" />}
+                {(event.type==="partita") && <MdSportsSoccer size={22} color="#e22929" />}
+                {(event.type==="amichevole") && <MdOutlineSportsKabaddi size={22} color="#e39d1a" />}
+                <div style={{ fontWeight: 700, fontSize: 17 }}>
+                  {event.title}
+                  <span style={{ color: "#147347", fontWeight: 600, fontSize: "15px", marginLeft: 8 }}>{event.type}</span>
+                </div>
+              </div>
+              <div style={{ color: "#556", fontSize: 15, marginTop: 2 }}>
+                {event.date} {event.startTime && `• ${event.startTime}`} {event.location && `- ${event.location.name}`}
+              </div>
+              <div style={{ display: "flex", gap: 8, margin: "5px 0 0 0" }}>
+                <Button title="" icon={<MdEdit />} variant="secondary" onPress={() => onEditEvent(event)} />
+                <Button title="" icon={<MdClose />} variant="secondary" onPress={() => onDeleteEvent(event)} />
+                <Button title="Manda sollecito ai non rispondenti" onPress={() => mandaPromemoria(event)} />
+              </div>
+              <div style={{
+                marginTop: 8,
+                background: "#f7fdfd",
+                border: "1.1px solid #b4ebcd",
+                borderRadius: 10,
+                padding: "14px 14px",
+                width: "100%",
+                minHeight: "65px",
+                boxSizing: "border-box"
+              }}>
+                <div style={{
+                  fontWeight: 600,
+                  marginBottom: 12,
+                  color: "#147347",
+                  fontSize: 17
+                }}>Risposte giocatori:</div>
+                {teamPlayers.map(p => {
+                  const responseObj = (event.responses || []).find(r => r.playerId === p.id);
+                  return (
+                    <div key={p.id} className="card-item" style={{
+                      marginBottom: '10px',
+                      width: "100%",
+                      boxSizing: "border-box"
+                    }}>
+                      <PlayerCard player={p} response={responseObj?.response} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
-            <div style={{ color: "#556", fontSize: 15, marginTop: 2 }}>
-              {event.date} {event.startTime && `• ${event.startTime}`} {event.location && `- ${event.location.name}`}
-            </div>
-            <div style={{ display: "flex", gap: 8, margin: "5px 0 0 0" }}>
-              <Button title="" icon={<MdEdit />} variant="secondary" onPress={() => onEditEvent(event)} />
-              <Button title="" icon={<MdClose />} variant="secondary" onPress={() => onDeleteEvent(event)} />
-              <Button title="Manda sollecito ai non rispondenti" onPress={() => mandaPromemoria(event)} />
-            </div>
-            <div style={{
-              marginTop: 8,
-              background: "#f7fdfd",
-              border: "1.1px solid #b4ebcd",
-              borderRadius: 10,
-              padding: "14px 14px",
-              width: "100%",
-              minHeight: "65px",
-              boxSizing: "border-box"
-            }}>
-              <div style={{
-                fontWeight: 600,
-                marginBottom: 12,
-                color: "#147347",
-                fontSize: 17
-              }}>Risposte giocatori:</div>
-              {teamPlayers.map(p => {
-                const responseObj = (event.responses || []).find(r => r.playerId === p.id);
-                return (
-                  <div key={p.id} className="card-item" style={{
-                    marginBottom: '10px',
-                    width: "100%",
-                    boxSizing: "border-box"
-                  }}>
-                    <PlayerCard player={p} response={responseObj?.response} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
         ))}
       </div>
     </div>
@@ -411,12 +499,31 @@ const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) =>
     if(!resp) return <span style={{color:"#888"}}>Non risposto</span>;
     if(resp.response === "partecipo") return <FaCheckCircle color="green" title="Partecipo" style={{fontSize:22,marginRight:4}} />;
     if(resp.response === "incerto")   return <FaQuestionCircle color="orange" title="Incerto" style={{fontSize:22,marginRight:4}} />;
-    if(resp.response === "no")        return <FaTimesCircle color="red" title="Non partecipa" style={{fontSize:22,marginRight:4}} />;
+    if(resp.response === "no")         return <FaTimesCircle color="red" title="Non partecipa" style={{fontSize:22,marginRight:4}} />;
     return <span>{resp.response}</span>;
   }
 
   return (
-    <div className="panel-main" style={{ position: "relative" }}>
+    <div
+  className="panel-main"
+  style={{
+    position: "relative",
+    borderRadius: 18,
+    padding: 8,
+    background: "linear-gradient(135deg, #1976d2 0%, #43ea70 100%)",
+    minHeight: "100vh"
+  }}
+>
+  {/* Aggiungi questo wrapper interno per il contenuto! */}
+  <div style={{
+    borderRadius: 14,
+    background: "#f7fafc",
+    padding: "8px 4px",
+    minHeight: "95vh",
+    boxShadow: "0 2px 14px #0001"
+  }}>
+    {/* TUTTO il tuo contenuto qui dentro! */}
+
       <LogoutButton onLogout={onLogout} />
       <div className="section-header"><FaFutbol className="socc-icon"/>Ciao {player.firstName}!</div>
       <div style={{fontSize:18,marginBottom:19}}>
@@ -425,7 +532,17 @@ const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) =>
       <div className="section-header"><FaFutbol className="socc-icon"/>Eventi & Convocazioni</div>
       {teamEvents.length === 0 && <div style={{ color: "#aaa" }}>Nessun evento per la tua squadra.</div>}
       {teamEvents.map(event => (
-        <div key={event.id} className="card-item" style={{flexDirection:"column",alignItems:"flex-start",marginBottom:20}}>
+        <div
+  key={event.id}
+  className="card-item"
+  style={{
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginBottom: 20,
+    background: selectedTeam?.color || "#f7fafc"
+  }}
+>
+
           <div style={{display:'flex',alignItems:'center',gap:7}}>
             {(event.type==="allenamento") && <FaFutbol size={22} color="#2196F3" />}
             {(event.type==="partita") && <MdSportsSoccer size={22} color="#e22929" />}
@@ -459,6 +576,7 @@ const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) =>
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 };
@@ -523,7 +641,14 @@ const ConvoCalcio = () => {
 
   const onCreateTeam = () => { setEditTeam(null); setShowTeamModal(true); };
   const onEditTeam = (team) => { setEditTeam(team); setShowTeamModal(true); };
-  const onDeleteTeam = (team) => { deleteDoc(doc(db, "teams", team.id)); addNotification("Squadra eliminata!", "success"); };
+
+  const onDeleteTeam = (team) => {
+    if(window.confirm(`Sei sicuro di voler eliminare la squadra "${team.name}"?`)){
+      deleteDoc(doc(db, "teams", team.id));
+      addNotification("Squadra eliminata!", "success");
+    }
+  };
+
   const handleSaveTeam = async (team) => {
     if(team.id){await updateDoc(doc(db,"teams",team.id), team);}
     else{await addDoc(collection(db,"teams"), team);}
@@ -532,7 +657,14 @@ const ConvoCalcio = () => {
 
   const onCreatePlayer = () => { setEditPlayer(null); setShowPlayerModal(true); };
   const onEditPlayer = (pl) => { setEditPlayer(pl); setShowPlayerModal(true); };
-  const onDeletePlayer = (pl) => { deleteDoc(doc(db, "players", pl.id)); addNotification("Giocatore eliminato!", "success"); };
+
+  const onDeletePlayer = (pl) => {
+    if(window.confirm(`Sei sicuro di voler eliminare il giocatore "${pl.firstName} ${pl.lastName}"?`)){
+      deleteDoc(doc(db, "players", pl.id));
+      addNotification("Giocatore eliminato!", "success");
+    }
+  };
+
   const handleSavePlayer = async (pl) => {
     if(pl.id){await updateDoc(doc(db,"players",pl.id), pl);}
     else{await addDoc(collection(db,"players"), pl);}
@@ -612,4 +744,3 @@ const ConvoCalcio = () => {
 };
 
 export default ConvoCalcio;
-
