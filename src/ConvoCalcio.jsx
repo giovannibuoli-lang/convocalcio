@@ -19,7 +19,32 @@ const StyleInjector = () => {
       .btn-primary:hover{background:linear-gradient(90deg, #1976d2 30%,#15803d 95%);box-shadow:0 8px 32px #1b93421f;}
       .btn-secondary{background:#edf6fb;color:#1976d2;border:1.4px solid #B0BEC4;border-radius:10px;padding:11px 22px;font-size:16px;font-weight:600;cursor:pointer;}
       .btn-secondary:hover{border-color:#1976d2;background:#e4ecff;}
-      .panel-main{background:#fff;box-shadow:0 8px 34px #1646601c;border-radius:29px;padding:45px 42px 28px 42px;margin:49px auto;max-width:990px;min-width:340px;border: 8px solid #1976d2;}
+      @keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+.panel-main{
+  background:#fff;
+  box-shadow:0 8px 34px #1646601c;
+  border-radius:29px;
+  padding:45px 42px 28px 42px;
+  margin:49px auto;
+  max-width:990px;
+  min-width:340px;
+  border: 6px solid transparent;
+  background-image:
+    linear-gradient(white, white),
+    linear-gradient(90deg,#1976d2,#22c55e,#1976d2,#22c55e);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 300% 300%, 300% 300%;
+  animation: gradientMove 4s linear infinite;
+}
+
       .section-header{font-size:23px;color:#15803d;font-weight:900;margin-bottom:24px;display:flex;align-items:center;gap:16px;letter-spacing:.019em;}
       .card-item{background:#f7fafc;border:1.2px solid #e0e5ed;border-radius:15px;padding:20px 15px;margin-bottom:16px;box-shadow:0 2.5px 14px #15803d15;cursor:pointer;transition:box-shadow .18s,border-color .11s;display:flex;align-items:center;}
       .card-item:hover{border-color:#1976d2;box-shadow:0 12px 34px #1976d223;}
