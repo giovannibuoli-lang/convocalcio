@@ -433,11 +433,30 @@ const AdminDashboard = ({
             <div style={{ color: "#556", fontSize: 15, marginTop: 2 }}>
               {event.date} {event.startTime && `• ${event.startTime}`} {event.location && `- ${event.location.name}`}
             </div>
-            <div style={{ display: "flex", gap: 8, margin: "5px 0 0 0" }}>
-              <Button title="" icon={<MdEdit />} variant="secondary" onPress={() => onEditEvent(event)} className="edit-btn" />
-              <Button title="" icon={<MdClose />} variant="secondary" onPress={() => onDeleteEvent(event)} className="delete-btn" />
-              <Button title="Manda sollecito ai non rispondenti" onPress={() => mandaPromemoria(event)} />
-            </div>
+            <div style={{ display: "flex", gap: 12, margin: "8px 0 0 0" }}>
+  <Button
+    title="Modifica Evento"
+    icon={<MdEdit style={{ fontSize: 22 }} />}
+    variant="secondary"
+    onPress={() => onEditEvent(event)}
+    className="edit-btn"
+    style={{ fontSize: 18, padding: "10px 26px" }}
+  />
+  <Button
+    title="Elimina Evento"
+    icon={<MdClose style={{ fontSize: 22 }} />}
+    variant="secondary"
+    onPress={() => onDeleteEvent(event)}
+    className="delete-btn"
+    style={{ fontSize: 18, padding: "10px 26px" }}
+  />
+  <Button
+    title="Manda sollecito ai non rispondenti"
+    onPress={() => mandaPromemoria(event)}
+    style={{ fontSize: 17, padding: "10px 24px" }}
+  />
+</div>
+
             <div style={{
               marginTop: 8,
               background: "#f7fdfd",
@@ -653,7 +672,13 @@ const ConvoCalcio = () => {
 
   const onCreateEvent = () => { setEditEvent(null); setShowEventModal(true); };
   const onEditEvent = (ev) => { setEditEvent(ev); setShowEventModal(true); };
-  const onDeleteEvent = (ev) => { deleteDoc(doc(db, "events", ev.id)); addNotification("Evento eliminato!", "success"); };
+  const onDeleteEvent = (ev) => {
+  if(window.confirm(`Sei sicuro di voler eliminare l'evento "${ev.title}"?`)){
+    deleteDoc(doc(db, "events", ev.id));
+    addNotification("Evento eliminato!", "success");
+  }
+};
+
   const handleSaveEvent = async (ev) => {
     if(ev.id){await updateDoc(doc(db,"events",ev.id), ev);}
     else{await addDoc(collection(db,"events"), ev);}
