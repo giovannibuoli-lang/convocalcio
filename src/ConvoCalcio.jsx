@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { MdGroups, MdPerson, MdEvent, MdLogout, MdEdit, MdClose, MdSportsSoccer, MdOutlineSportsKabaddi, MdWhatshot } from "react-icons/md";
-import { FaFutbol, FaUserShield, FaCheckCircle, FaQuestionCircle, FaTimesCircle, FaRunning, FaFootballBall } from 'react-icons/fa';
+import { MdGroups, MdPerson, MdEvent, MdLogout, MdEdit, MdClose, MdSportsSoccer, MdOutlineSportsKabaddi } from "react-icons/md";
+import { FaFutbol, FaCheckCircle, FaQuestionCircle, FaTimesCircle, FaRunning } from 'react-icons/fa';
 import { GiSoccerField, GiGoalKeeper, GiSoccerKick } from 'react-icons/gi';
 import { db } from './firebase';
 import { collection, addDoc, updateDoc, doc, onSnapshot, deleteDoc } from "firebase/firestore";
@@ -19,36 +19,37 @@ const StyleInjector = () => {
       .btn-primary:hover{background:linear-gradient(90deg, #1976d2 30%,#15803d 95%);box-shadow:0 8px 32px #1b93421f;}
       .btn-secondary{background:#edf6fb;color:#1976d2;border:1.4px solid #B0BEC4;border-radius:10px;padding:11px 22px;font-size:16px;font-weight:600;cursor:pointer;}
       .btn-secondary:hover{border-color:#1976d2;background:#e4ecff;}
-      .edit-btn { background-color: #21ba45 !important; color: #fff !important; font-weight: bold; }
+      .edit-btn { background-color: #21ba45 !important; color: #fff !important; font-weight: bold;}
       .edit-btn:hover { background-color: #16a34a !important; }
       .delete-btn { background-color: #db2828 !important; color: #fff !important; font-weight: bold; }
       .delete-btn:hover { background-color: #b91c1c !important; }
       @keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-.panel-main{background:#fff;box-shadow:0 8px 34px #1646601c;border-radius:29px;
-padding:45px 42px 28px 42px; margin:49px auto; max-width:990px; min-width:340px; border: 6px solid transparent;
-background-image: linear-gradient(white, white), linear-gradient(90deg,#1976d2,#22c55e,#1976d2,#22c55e);
-background-origin: border-box; background-clip: padding-box, border-box; background-size: 300% 300%, 300% 300%;
-animation: gradientMove 4s linear infinite;}
-.section-header{font-size:23px;color:#15803d;font-weight:900;margin-bottom:24px;display:flex;align-items:center;gap:16px;letter-spacing:.019em;}
-.card-item{background:#f7fafc;border:1.2px solid #e0e5ed;border-radius:15px;padding:20px 15px;margin-bottom:16px;box-shadow:0 2.5px 14px #15803d15;cursor:pointer;transition:box-shadow .18s,border-color .11s;display:flex;align-items:center;}
-.card-item:hover{border-color:#1976d2;box-shadow:0 12px 34px #1976d223;}
-.socc-icon{color:#1976d2;font-size:35px;margin-right:14px;}
-@media (max-width: 700px) {
-.panel-main { max-width: 99vw; min-width: unset; padding: 18vw 2vw 4vw 2vw; box-shadow: 0 2.5px 14px #1646600a; margin: 0 auto; border-radius: 0; }
-.section-header { font-size: 19px; }
-.card-item { border-radius: 8px; padding:14px 8px; font-size:14.5px; }
-.btn-primary, .btn-secondary, .edit-btn, .delete-btn { font-size:15px; padding:11px 14px; border-radius:8px; }
-.socc-icon { font-size: 25px; margin-right:7px; }
-}
-@media (max-width: 480px) {
-.panel-main { padding: 11vw 2vw 4vw 2vw; }
-.section-header { font-size: 17px; gap:7px; }
-.card-item { flex-direction:column; gap:10px; }
-.btn-primary, .btn-secondary, .edit-btn, .delete-btn { width:100%; box-sizing:border-box; margin-top:8px; }
-}
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+      .panel-main{background:#fff;box-shadow:0 8px 34px #1646601c;border-radius:29px;
+        padding:45px 42px 28px 42px;
+        margin:49px auto;max-width:990px;min-width:340px;border:6px solid transparent;
+        background-image:linear-gradient(white, white),linear-gradient(90deg,#1976d2,#22c55e,#1976d2,#22c55e);
+        background-origin:border-box;background-clip:padding-box, border-box;
+        background-size:300% 300%,300% 300%;animation:gradientMove 4s linear infinite;}
+      .section-header{font-size:23px;color:#15803d;font-weight:900;margin-bottom:24px;display:flex;align-items:center;gap:16px;letter-spacing:.019em;}
+      .card-item{background:#f7fafc;border:1.2px solid #e0e5ed;border-radius:15px;padding:20px 15px;margin-bottom:16px;box-shadow:0 2.5px 14px #15803d15;cursor:pointer;transition:box-shadow .18s,border-color .11s;display:flex;align-items:center;}
+      .card-item:hover{border-color:#1976d2;box-shadow:0 12px 34px #1976d223;}
+      .socc-icon{color:#1976d2;font-size:35px;margin-right:14px;}
+      @media (max-width: 700px) {
+        .panel-main { max-width:99vw;min-width:unset;padding:18vw 2vw 4vw 2vw;box-shadow:0 2.5px 14px #1646600a;margin:0 auto;border-radius:0;}
+        .section-header{font-size:19px;}
+        .card-item{border-radius:8px;padding:14px 8px;font-size:14.5px;}
+        .btn-primary,.btn-secondary,.edit-btn,.delete-btn{font-size:15px;padding:11px 14px;border-radius:8px;}
+        .socc-icon{font-size:25px;margin-right:7px;}
+      }
+      @media (max-width: 480px) {
+        .panel-main{padding:11vw 2vw 4vw 2vw;}
+        .section-header{font-size:17px;gap:7px;}
+        .card-item{flex-direction:column;gap:10px;}
+        .btn-primary,.btn-secondary,.edit-btn,.delete-btn{width:100%;box-sizing:border-box;margin-top:8px;}
+      }
     `;
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
@@ -96,9 +97,8 @@ const LogoutButton = ({ onLogout }) => (
     position:"absolute",top:18,right:28,background:"none",border:"none",fontSize:29,color:COLORS.textDim,cursor:"pointer",zIndex:105
   }}><MdLogout/></button>
 );
-
-const PlayerCard = ({ player, editable = false, onEdit, onDelete, response }) => (
-  <div className="card-item" style={{ flexDirection: "row", alignItems: "center" }}>
+const PlayerCard = ({ player, editable = false, onEdit, onDelete, response, style = {} }) => (
+  <div className="card-item" style={{ flexDirection: "row", alignItems: "center", ...style }}>
     {player.position === 'Portiere' && <GiGoalKeeper style={{ fontSize: 28, marginRight: 10, color: "#3b82f6" }} title="Portiere" />}
     {player.position === 'Difensore' && <FaRunning style={{ fontSize: 28, marginRight: 10, color: "#227bbf" }} title="Difensore" />}
     {player.position === 'Centrocampista' && <FaFutbol style={{ fontSize: 28, marginRight: 10, color: "#1ed760" }} title="Centrocampista" />}
@@ -120,28 +120,13 @@ const PlayerCard = ({ player, editable = false, onEdit, onDelete, response }) =>
 
     {editable &&
       <div style={{ display: "flex", gap: 9 }}>
-        <Button
-          variant="secondary"
-          icon={<MdEdit/>}
-          title="Modifica Giocatore"
-          onPress={() => onEdit(player)}
-          className="edit-btn"
-          style={{fontSize:16, padding:"6px 10px"}}
-        />
-        <Button
-          variant="secondary"
-          icon={<MdClose/>}
-          title="Elimina Giocatore"
-          onPress={() => onDelete(player)}
-          className="delete-btn"
-          style={{fontSize:16,padding:"6px 10px"}}
-        />
+        <Button variant="secondary" icon={<MdEdit/>} title="Modifica Giocatore" onPress={() => onEdit(player)} className="edit-btn" style={{fontSize:16, padding:"6px 10px"}} />
+        <Button variant="secondary" icon={<MdClose/>} title="Elimina Giocatore" onPress={() => onDelete(player)} className="delete-btn" style={{fontSize:16,padding:"6px 10px"}} />
       </div>
     }
   </div>
 );
 
-// MODAL PULSANTI: aggiorna anche “Salva” (verde) e “Annulla” (rosso)
 const TeamFormModal = ({ open, team, onSave, onClose }) => {
   const [name, setName] = useState(team?.name || "");
   const [category, setCategory] = useState(team?.category || "");
@@ -316,9 +301,6 @@ const DemoLogin = ({ onAdmin, onPlayer }) => {
     </div>
   );
 };
-
-// --- DASHBOARD ---
-// Sempre usare className su Button per pulsanti di Modifica/Elimina Squadra/Eventi etc.
 const AdminDashboard = ({
   teams,
   players,
@@ -332,18 +314,17 @@ const AdminDashboard = ({
   onCreatePlayer,
   onEditPlayer,
   onDeletePlayer,
-  onAnswer,
   user,
   onLogout
 }) => {
   const [selectedTeamId, setSelectedTeamId] = useState(teams[0]?.id || "");
-  const selectedTeam = teams.find(t => t.id === selectedTeamId);
+  const selectedTeam = teams.find(t => t.id === selectedTeamId) || teams[0];
   const sectionHeader = (text) => {
     let Icon, color;
     if (text === "Squadre") { Icon = MdGroups; color = "#1769aa"; }
     else if (text === "Giocatori") { Icon = FaRunning; color = "#15803d"; }
     else if (text === "Eventi/Convocazioni") { Icon = GiSoccerField; color = "#e57300"; }
-    else { Icon = FaFootballBall; color = "#222"; }
+    else { Icon = FaFutbol; color = "#222"; }
     return (
       <div className="section-header" style={{gap:14}}>
         <Icon style={{color, fontSize:34, marginRight:10}} />
@@ -351,13 +332,10 @@ const AdminDashboard = ({
       </div>
     );
   };
-
   const teamEvents = events.filter(e => e.teamId === selectedTeamId);
   const teamPlayers = players.filter(p => p.teamId === selectedTeamId);
 
-  const mandaPromemoria = (event) => {
-    alert("Sollecito inviato ai non rispondenti dell'evento: " + event.title);
-  };
+  const mandaPromemoria = (event) => { alert("Sollecito inviato ai non rispondenti dell'evento: " + event.title); };
 
   return (
     <div className="panel-main" style={{ position: "relative" }}>
@@ -408,23 +386,21 @@ const AdminDashboard = ({
         </div>
       ))}
 
-
-            {sectionHeader("Giocatori")}
+      {sectionHeader("Giocatori")}
       <Button title="Aggiungi giocatore" icon={<MdPerson />} onPress={onCreatePlayer} style={{ marginBottom: 14 }} />
       <div>
         {teamPlayers.length === 0 &&
           <div style={{ color: "#aaa" }}>Nessun giocatore in questa squadra.</div>}
         {teamPlayers.map(player => (
-          <div key={player.id} className="card-item" style={{ background: selectedTeam?.color || "#f7fafc" }}>
-            <PlayerCard
-              player={player}
-              editable
-              onEdit={onEditPlayer}
-              onDelete={onDeletePlayer}
-            />
-          </div>
+          <PlayerCard
+            key={player.id}
+            player={player}
+            editable
+            onEdit={onEditPlayer}
+            onDelete={onDeletePlayer}
+            style={{ background: selectedTeam?.color || "#f7fafc" }}
+          />
         ))}
-
       </div>
       {sectionHeader("Eventi/Convocazioni")}
       <Button
@@ -433,7 +409,6 @@ const AdminDashboard = ({
         onPress={onCreateEvent}
         style={{ width: "100%", marginBottom: 14, fontSize: 18, fontWeight: 600 }}
       />
-
       <div>
         {teamEvents.length === 0 && <div style={{ color: "#aaa" }}>Nessun evento per questa squadra.</div>}
         {teamEvents.map(event => (
@@ -445,9 +420,8 @@ const AdminDashboard = ({
               alignItems: "flex-start",
               gap: 9,
               background: selectedTeam?.color || "#f7fafc"
-            }}
-          >
-            <div style={{display:'flex',alignItems:'center',gap:9}}>
+            }}>
+            <div style={{ display:'flex',alignItems:'center',gap:9 }}>
               {(event.type==="allenamento") && <FaFutbol size={22} color="#2196F3" />}
               {(event.type==="partita") && <MdSportsSoccer size={22} color="#e22929" />}
               {(event.type==="amichevole") && <MdOutlineSportsKabaddi size={22} color="#e39d1a" />}
@@ -483,13 +457,16 @@ const AdminDashboard = ({
               {teamPlayers.map(p => {
                 const responseObj = (event.responses || []).find(r => r.playerId === p.id);
                 return (
-                  <div key={p.id} className="card-item" style={{
-                    marginBottom: '10px',
-                    width: "100%",
-                    boxSizing: "border-box"
-                  }}>
-                    <PlayerCard player={p} response={responseObj?.response} />
-                  </div>
+                  <PlayerCard
+                    key={p.id}
+                    player={p}
+                    response={responseObj?.response}
+                    style={{
+                      marginBottom: '10px',
+                      width: "100%",
+                      boxSizing: "border-box"
+                    }}
+                  />
                 );
               })}
             </div>
@@ -500,6 +477,7 @@ const AdminDashboard = ({
   );
 };
 
+// PLAYER DASHBOARD
 const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) => {
   const [selectedTeamId, setSelectedTeamId] = useState("");
   useEffect(() => {
@@ -519,16 +497,13 @@ const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) =>
   }
 
   return (
-    <div
-      className="panel-main"
-      style={{
-        position: "relative",
-        borderRadius: 18,
-        padding: 8,
-        background: "linear-gradient(135deg, #1976d2 0%, #43ea70 100%)",
-        minHeight: "100vh"
-      }}
-    >
+    <div className="panel-main" style={{
+      position: "relative",
+      borderRadius: 18,
+      padding: 8,
+      background: "linear-gradient(135deg, #1976d2 0%, #43ea70 100%)",
+      minHeight: "100vh"
+    }}>
       <div style={{
         borderRadius: 14,
         background: "#f7fafc",
@@ -552,8 +527,7 @@ const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) =>
               alignItems: "flex-start",
               marginBottom: 20,
               background: selectedTeam?.color || "#f7fafc"
-            }}
-          >
+            }}>
             <div style={{display:'flex',alignItems:'center',gap:7}}>
               {(event.type==="allenamento") && <FaFutbol size={22} color="#2196F3" />}
               {(event.type==="partita") && <MdSportsSoccer size={22} color="#e22929" />}
@@ -591,24 +565,149 @@ const PlayerDashboard = ({ teams, events, player, onSendResponse, onLogout }) =>
     </div>
   );
 };
-
 const ConvoCalcio = () => {
-  // Resto invariato!
-  // ... (come da tuo sorgente, copialo qui interamente)
-  // Usa la tua versione con tutte le funzioni e hooks che hai già nel file
-  // Non c'è da fare cambiamenti alla logica a parte le classi e stili aggiunti sopra!
-  // Esempio:
-  // const [screen, setScreen] = useState("login");
-  // ...
-  // return (
-  //   <>
-  //     <StyleInjector />
-  //     {teamModal}{playerModal}{eventModal}
-  //     {screen==="login" && <DemoLogin ... />}
-  //     {screen==="admin" && user && (<AdminDashboard ... />)}
-  //     {screen==="player" && user && (<PlayerDashboard ... />)}
-  //   </>
-  // );
+  const [screen, setScreen] = useState("login");
+  const [user, setUser] = useState(null);
+  const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [showTeamModal, setShowTeamModal] = useState(false);
+  const [editTeam, setEditTeam] = useState(null);
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [editPlayer, setEditPlayer] = useState(null);
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [editEvent, setEditEvent] = useState(null);
+  const { addNotification } = useNotification();
+
+  useEffect(() => {
+    const unsubTeams = onSnapshot(collection(db, "teams"), (snap) => {
+      setTeams(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+    });
+    const unsubPlayers = onSnapshot(collection(db, "players"), (snap) => {
+      setPlayers(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+    });
+    const unsubEvents = onSnapshot(collection(db, "events"), (snap) => {
+      setEvents(snap.docs.map(d => ({ ...d.data(), id: d.id })));
+    });
+    return () => { unsubTeams(); unsubPlayers(); unsubEvents(); }
+  }, []);
+
+  useEffect(() => {
+    if(teams.length === 0 || players.length === 0) return;
+    const u = localStorage.getItem("userdemo");
+    if(u){
+      const userData = JSON.parse(u);
+      setUser(userData);
+      setScreen(userData.type);
+    }
+  }, [teams, players]);
+
+  const handleDemoLogin = async (username) => {
+    if(username.toLowerCase().includes("admin")) {
+      setUser({ type: "admin", username });
+      setScreen("admin");
+      localStorage.setItem("userdemo", JSON.stringify({ type: "admin", username }));
+    } else {
+      let pl = players.find(p=>p.username===username);
+      if(!pl){
+        const newPlayer = { username, firstName: username, lastName: "", teamId: teams[0]?.id||"", position: "Attaccante" };
+        const docRef = await addDoc(collection(db, "players"), newPlayer);
+        pl = { ...newPlayer, id: docRef.id };
+      }
+      setUser({ type: "player", ...pl });
+      setScreen("player");
+      localStorage.setItem("userdemo", JSON.stringify({ type:"player", ...pl }));
+    }
+  };
+  const handleLogout = () => {
+    setUser(null); setScreen("login"); localStorage.removeItem("userdemo");
+  };
+
+  const onCreateTeam = () => { setEditTeam(null); setShowTeamModal(true); };
+  const onEditTeam = (team) => { setEditTeam(team); setShowTeamModal(true); };
+  const onDeleteTeam = (team) => {
+    if(window.confirm(`Sei sicuro di voler eliminare la squadra "${team.name}"?`)){
+      deleteDoc(doc(db, "teams", team.id));
+      addNotification("Squadra eliminata!", "success");
+    }
+  };
+  const handleSaveTeam = async (team) => {
+    if(team.id){await updateDoc(doc(db,"teams",team.id), team);}
+    else{await addDoc(collection(db,"teams"), team);}
+    setShowTeamModal(false); addNotification("Squadra salvata!", "success");
+  };
+
+  const onCreatePlayer = () => { setEditPlayer(null); setShowPlayerModal(true); };
+  const onEditPlayer = (pl) => { setEditPlayer(pl); setShowPlayerModal(true); };
+  const onDeletePlayer = (pl) => {
+    if(window.confirm(`Sei sicuro di voler eliminare il giocatore "${pl.firstName} ${pl.lastName}"?`)){
+      deleteDoc(doc(db, "players", pl.id));
+      addNotification("Giocatore eliminato!", "success");
+    }
+  };
+  const handleSavePlayer = async (pl) => {
+    if(pl.id){await updateDoc(doc(db,"players",pl.id), pl);}
+    else{await addDoc(collection(db,"players"), pl);}
+    setShowPlayerModal(false); addNotification("Giocatore salvato!", "success");
+  };
+
+  const onCreateEvent = () => { setEditEvent(null); setShowEventModal(true); };
+  const onEditEvent = (ev) => { setEditEvent(ev); setShowEventModal(true); };
+  const onDeleteEvent = (ev) => { deleteDoc(doc(db, "events", ev.id)); addNotification("Evento eliminato!", "success"); };
+  const handleSaveEvent = async (ev) => {
+    if(ev.id){await updateDoc(doc(db,"events",ev.id), ev);}
+    else{await addDoc(collection(db,"events"), ev);}
+    setShowEventModal(false); addNotification("Evento salvato!", "success");
+  };
+
+  const handlePlayerResponse = async (eventId, answer) => {
+    const event = events.find(e=>e.id===eventId);
+    if(!event || !user?.id) return;
+    let responses = event.responses || [];
+    responses = responses.filter(r=>r.playerId!==user.id);
+    responses.push({ playerId: user.id, response: answer });
+    await updateDoc(doc(db, "events", eventId), { ...event, responses });
+    addNotification("Risposta salvata!", "success");
+  };
+
+  const teamModal = <TeamFormModal open={showTeamModal} team={editTeam} onSave={handleSaveTeam} onClose={()=>setShowTeamModal(false)} />;
+  const playerModal = <PlayerFormModal open={showPlayerModal} player={editPlayer} teams={teams} onSave={handleSavePlayer} onClose={()=>setShowPlayerModal(false)} />;
+  const eventModal = <EventFormModal open={showEventModal} event={editEvent} teams={teams} onSave={handleSaveEvent} onClose={()=>setShowEventModal(false)} />;
+
+  return (
+    <>
+      <StyleInjector />
+      {teamModal}{playerModal}{eventModal}
+      {screen==="login" && <DemoLogin onAdmin={handleDemoLogin} onPlayer={handleDemoLogin} />}
+      {screen==="admin" && user && (
+        <AdminDashboard
+          teams={teams}
+          players={players}
+          events={events}
+          user={user}
+          onCreateTeam={onCreateTeam}
+          onEditTeam={onEditTeam}
+          onDeleteTeam={onDeleteTeam}
+          onCreatePlayer={onCreatePlayer}
+          onEditPlayer={onEditPlayer}
+          onDeletePlayer={onDeletePlayer}
+          onCreateEvent={onCreateEvent}
+          onEditEvent={onEditEvent}
+          onDeleteEvent={onDeleteEvent}
+          onLogout={handleLogout}
+        />
+      )}
+      {screen==="player" && user && (
+        <PlayerDashboard
+          teams={teams}
+          events={events}
+          player={user}
+          onSendResponse={handlePlayerResponse}
+          onLogout={handleLogout}
+        />
+      )}
+    </>
+  );
 };
 
 export default ConvoCalcio;
