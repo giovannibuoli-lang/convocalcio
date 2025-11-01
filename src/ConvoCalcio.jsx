@@ -409,6 +409,27 @@ const AdminDashboard = ({
               <Button title="Modifica Evento" icon={<MdEdit style={{ fontSize: 22 }} />} variant="secondary" onPress={() => onEditEvent(event)} className="edit-btn" style={{ fontSize: 18, padding: "10px 26px" }} />
               <Button title="Elimina Evento" icon={<MdClose style={{ fontSize: 22 }} />} variant="secondary" onPress={() => onDeleteEvent(event)} className="delete-btn" style={{ fontSize: 18, padding: "10px 26px" }} />
               <Button title="Manda sollecito ai non rispondenti" onPress={() => mandaPromemoria(event)} style={{ fontSize: 17, padding: "10px 24px" }} />
+ <Button
+  title="Whatsapp ai non rispondenti"
+  style={{ background: "#25D366", color: "#fff", fontWeight: 700 }}
+  onPress={() => {
+    // Trova i giocatori non rispondenti per questo evento
+    const nonRispondenti = players.filter(pl =>
+      pl.teamId === event.teamId &&
+      !(event.responses || []).some(r => r.playerId === pl.id)
+    );
+    // Crea una lista di nomi da inserire nel messaggio
+    const nomi = nonRispondenti.map(pl => pl.firstName || pl.username).join(', ');
+    // Messaggio WhatsApp
+    const msg = encodeURIComponent(
+      `⚽️ Rispondi all'evento "${event.title}"!\n\nMancano le risposte di: ${nomi}\n\nAiutaci a organizzare la convocazione, rispondi ora su ConvoCalcio!`
+    );
+    // Link WhatsApp Web/mobile
+    const waUrl = `https://wa.me/?text=${msg}`;
+    window.open(waUrl, '_blank');
+  }}
+/>
+
             </div>
             <div style={{
               marginTop: 8, background: "#f7fdfd", border: "1.1px solid #b4ebcd", borderRadius: 10,
