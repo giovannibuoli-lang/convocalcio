@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MdGroups, MdPerson, MdEvent, MdLogout, MdEdit, MdClose, MdSportsSoccer, MdOutlineSportsKabaddi } from "react-icons/md";
-import { FaFutbol, FaCheckCircle, FaQuestionCircle, FaTimesCircle, FaRunning } from 'react-icons/fa';
+import { FaFutbol, FaCheckCircle, FaQuestionCircle, FaTimesCircle, FaRunning, FaWhatsapp } from 'react-icons/fa';
 import { GiSoccerField, GiGoalKeeper, GiSoccerKick } from 'react-icons/gi';
 import { db } from './firebase';
 import { collection, addDoc, updateDoc, doc, onSnapshot, deleteDoc } from "firebase/firestore";
@@ -405,32 +405,84 @@ const AdminDashboard = ({
             <div style={{ color: "#556", fontSize: 15, marginTop: 2 }}>
               {event.date} {event.startTime && `• ${event.startTime}`} {event.location && `- ${event.location.name}`}
             </div>
-            <div style={{ display: "flex", gap: 12, margin: "8px 0 0 0" }}>
-              <Button title="Modifica Evento" icon={<MdEdit style={{ fontSize: 22 }} />} variant="secondary" onPress={() => onEditEvent(event)} className="edit-btn" style={{ fontSize: 18, padding: "10px 26px" }} />
-              <Button title="Elimina Evento" icon={<MdClose style={{ fontSize: 22 }} />} variant="secondary" onPress={() => onDeleteEvent(event)} className="delete-btn" style={{ fontSize: 18, padding: "10px 26px" }} />
-              <Button title="Manda sollecito ai non rispondenti" onPress={() => mandaPromemoria(event)} style={{ fontSize: 17, padding: "10px 24px" }} />
- <Button
-  title="Whatsapp ai non rispondenti"
-  style={{ background: "#25D366", color: "#fff", fontWeight: 700 }}
-  onPress={() => {
-    // Trova i giocatori non rispondenti per questo evento
-    const nonRispondenti = players.filter(pl =>
-      pl.teamId === event.teamId &&
-      !(event.responses || []).some(r => r.playerId === pl.id)
-    );
-    // Crea una lista di nomi da inserire nel messaggio
-    const nomi = nonRispondenti.map(pl => pl.firstName || pl.username).join(', ');
-    // Messaggio WhatsApp
-    const msg = encodeURIComponent(
-      `⚽️ Rispondi all'evento "${event.title}"!\n\nMancano le risposte di: ${nomi}\n\nAiutaci a organizzare la convocazione, rispondi ora su ConvoCalcio!`
-    );
-    // Link WhatsApp Web/mobile
-    const waUrl = `https://wa.me/?text=${msg}`;
-    window.open(waUrl, '_blank');
+           <div
+  style={{
+    display: "flex",
+    gap: 8,
+    margin: "8px 0 0 0",
+    flexWrap: "wrap",
+    justifyContent: "center"
   }}
-/>
+>
+  <Button
+    title="Modifica Evento"
+    icon={<MdEdit style={{ fontSize: 22 }} />}
+    variant="secondary"
+    onPress={() => onEditEvent(event)}
+    className="edit-btn"
+    style={{
+      fontSize: 15,
+      padding: "9px 8px",
+      minWidth: 110,
+      maxWidth: "95vw",
+      flex: "1 1 148px"
+    }}
+  />
+  <Button
+    title="Elimina Evento"
+    icon={<MdClose style={{ fontSize: 22 }} />}
+    variant="secondary"
+    onPress={() => onDeleteEvent(event)}
+    className="delete-btn"
+    style={{
+      fontSize: 15,
+      padding: "9px 8px",
+      minWidth: 110,
+      maxWidth: "95vw",
+      flex: "1 1 148px"
+    }}
+  />
+  <Button
+    title="Manda sollecito ai non rispondenti"
+    onPress={() => mandaPromemoria(event)}
+    style={{
+      fontSize: 15,
+      padding: "9px 8px",
+      minWidth: 110,
+      maxWidth: "95vw",
+      flex: "1 1 148px",
+      background: "#179147",
+      color: "#fff",
+      fontWeight: 600
+    }}
+  />
+  <Button
+    title={<><FaWhatsapp style={{marginRight:6}}/>Whatsapp sollecito</>}
+    style={{
+      fontSize: 15,
+      padding: "9px 8px",
+      minWidth: 110,
+      maxWidth: "95vw",
+      flex: "1 1 148px",
+      background: "#25D366",
+      color: "#fff",
+      fontWeight: 700
+    }}
+    onPress={() => {
+      const nonRispondenti = players.filter(pl =>
+        pl.teamId === event.teamId &&
+        !(event.responses || []).some(r => r.playerId === pl.id)
+      );
+      const nomi = nonRispondenti.map(pl => pl.firstName || pl.username).join(', ');
+      const msg = encodeURIComponent(
+        `⚽️ Rispondi all'evento "${event.title}"!\n\nMancano le risposte di: ${nomi}\n\nAiutaci a organizzare la convocazione, rispondi ora su ConvoCalcio!`
+      );
+      const waUrl = `https://wa.me/?text=${msg}`;
+      window.open(waUrl, '_blank');
+    }}
+  />
+</div>
 
-            </div>
             <div style={{
               marginTop: 8, background: "#f7fdfd", border: "1.1px solid #b4ebcd", borderRadius: 10,
               padding: "14px 14px", width: "100%", minHeight: "65px", boxSizing: "border-box"
